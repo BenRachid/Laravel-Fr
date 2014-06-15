@@ -1,0 +1,19 @@
+
+<!-- Traduction Laravel-france  -->
+<!-- Maj:7/06/2013 - frontend/pages/home.php -->
+
+<?php /*  Page title  */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo Lang::get('frontend/pages.home.title'); ?>
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /*  Page content  */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h3><?php echo Lang::get('frontend/pages.home.description'); ?></h3>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('frontend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

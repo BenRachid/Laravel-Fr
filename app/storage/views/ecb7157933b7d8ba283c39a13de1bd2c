@@ -1,0 +1,34 @@
+
+<!-- Traduction Laravel-france  -->
+<!-- Maj:7/06/2013 - 404.php -->
+
+<?php /*  Page title  */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo Lang::get('error.404.title'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php /*  Error page content  */ ?>
+<?php $__env->startSection('content'); ?>
+	<div class="wrapper">
+		<div class="error-spacer"></div>
+		<div role="main" class="main">
+			<h1><?php echo Lang::get('error.404.description'); ?></h1>
+
+			<h2><?php echo Lang::get('error.404.error'); ?></h2>
+
+			<hr>
+
+			<h3><?php echo Lang::get('error.404.meaning'); ?></h3>
+
+			<p>
+				<?php echo Lang::get('error.404.reason'); ?>
+			</p>
+
+			<p>
+				<?php echo Lang::get('error.404.redirect'); ?>
+			</p>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('error/layouts/defaut', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

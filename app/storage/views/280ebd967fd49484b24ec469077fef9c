@@ -1,0 +1,20 @@
+
+<?php /*  Traduction Laravel-france  */ ?>
+<?php /*   Maj:8/06/2013 - backend/dashboard/index.php  */ ?>
+
+<?php /*  Page title  */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo Lang::get('backend/dashboard/actions.index.title'); ?>
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /*  Page content  */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h3>
+		<?php echo Lang::get('backend/dashboard/actions.index.description'); ?>
+	</h3>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
