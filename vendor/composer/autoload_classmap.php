@@ -77,6 +77,7 @@ return array(
     'Controllers\\Account\\ChangePasswordController' => $baseDir . '/app/controllers/account/ChangePasswordController.php',
     'Controllers\\Account\\DashboardController' => $baseDir . '/app/controllers/account/DashboardController.php',
     'Controllers\\Account\\ProfileController' => $baseDir . '/app/controllers/account/ProfileController.php',
+    'Controllers\\Admin\\CommentsController' => $baseDir . '/app/controllers/admin/CommentsController.php',
     'Controllers\\Admin\\DashboardController' => $baseDir . '/app/controllers/admin/DashboardController.php',
     'Controllers\\Admin\\GroupsController' => $baseDir . '/app/controllers/admin/GroupsController.php',
     'Controllers\\Admin\\UsersController' => $baseDir . '/app/controllers/admin/UsersController.php',

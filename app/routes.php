@@ -35,6 +35,18 @@ Route::group(array('prefix' => 'admin'), function()
 		Route::get('{groupId}/delete', array('as' => 'delete/group', 'uses' => 'Controllers\Admin\GroupsController@getDelete'));
 		Route::get('{groupId}/restore', array('as' => 'restore/group', 'uses' => 'Controllers\Admin\GroupsController@getRestore'));
 	});
+	
+	# Comment Management
+	Route::group(array('prefix' => 'comments'), function()
+	{
+		Route::get('/', array('as' => 'comments', 'uses' => 'Controllers\Admin\CommentsController@getIndex'));
+		Route::get('create', array('as' => 'create/comments', 'uses' => 'Controllers\Admin\CommentsController@getCreate'));
+		Route::post('create', 'Controllers\Admin\CommentsController@postCreate');
+		Route::get('{commentId}/edit', array('as' => 'update/comments', 'uses' => 'Controllers\Admin\CommentsController@getEdit'));
+		Route::post('{commentId}/edit', 'Controllers\Admin\CommentsController@postEdit');
+		Route::get('{commentId}/delete', array('as' => 'delete/comment', 'uses' => 'Controllers\Admin\CommentsController@getDelete'));
+		Route::get('{commentId}/restore', array('as' => 'restore/comment', 'uses' => 'Controllers\Admin\CommentsController@getRestore'));
+	});
 
 	# Dashboard
 	Route::get('/', array('as' => 'admin', 'uses' => 'Controllers\Admin\DashboardController@getIndex'));
