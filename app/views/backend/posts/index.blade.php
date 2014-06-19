@@ -17,6 +17,18 @@
 
 		<div class="pull-right">
 			<a href="{{ route('create/posts') }}" class="btn btn-small btn-info"><i class="icon-plus-sign icon-white"></i> {{Lang::get('backend/posts/actions.buttons.create')}}</a>
+		<div class="well"><div id="datetimepicker" class="input-append">
+		<form class="form-horizontal" method="post" action="{{URL::to('/');}}/admin/posts/useddate" autocomplete="off">
+		<input id="datetimepicker" name="datetimepicker" data-format="dd-MM-yyyy" type="text" value="<?php if(isset($usedDate)){echo $usedDate;}else{$now = new DateTime(); echo $now->format('d-m-Y');}?> "></input><span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span></div></div>
+		<script type="text/javascript">
+		  $(function() {
+			$('#datetimepicker').datetimepicker({
+			  pickTime: false
+			});
+		  });
+		</script>
+		<button type="submit" class="btn btn-success">Actualiser</button>
+		</form>
 		</div>
 	</h3>
 </div>
@@ -47,11 +59,11 @@
 				$smallPhoto =substr($post->Photo, 0, 20); ?>
 		<tr>
 			<td>{{ $post->id }}</td>
-			<td>{{ $post->user_id }}</td>
+			<td><?php //$name = User::where('user_id', '=', $post->user_id); $name=$name->email; echo $name;?> {{$post->user_id}}</td> <!-- -->
 			<td>{{ $post->title }}</td>
 			<td>{{ $post->slug }}</td>
-			<td>{{ $small}}</td>
-			<td>{{ $smallPhoto }}</td>
+			<td>{{ $small //$post->content}}</td>
+			<td>{{ $smallPhoto //$post->Photo }}</td>
 			<td>{{ $post->meta_title }}</td>
 			<td>{{ $post->meta_description }}</td>
 			<td>{{ $post->meta_keywords }}</td>

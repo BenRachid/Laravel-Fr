@@ -9,6 +9,8 @@ use Validator;
 use View;
 use user;
 use post;
+use Carbon\Carbon;
+use url;
 
 class PostsController extends AdminController {
 
@@ -20,11 +22,43 @@ class PostsController extends AdminController {
 	public function getIndex()
 	{
 		// Grab all the posts
-		$posts = Post::all();
-
+		//$posts = Post::all();//$now->format('d-m-Y');
+		//$url = URL::base();
+		$users = User::all();
+		$now = Carbon::now();$now->subDay();
+		//$now = $now->toDateTimeString();
+		//echo $now;
+		//$posts = Post::where('updated_at', '>', $now); time() - (24*60*60)
+		$date = date('Y-m-d H:i:s');
+		$posts = Post::where('updated_at', '>=', $now)->get();
+		//print_r ($posts);
 		// Show the page
-		return View::make('backend/posts/index', compact('posts'));
+		return View::make('backend/posts/index', compact('posts', 'users'));
 	}
+	
+	/**
+	
+	get the index by date
+	
+	*/
+	public function getPostByDate()
+	{
+		// Grab all the posts
+		//$posts = Post::all();//$now->format('d-m-Y');
+		$users = User::all();
+		$now = Carbon::now();$now->subDay();
+		$inputs = Input::all();
+		$usedDate = $inputs['datetimepicker'];
+		//$now = $now->toDateTimeString();
+		//echo $now;
+		//$posts = Post::where('updated_at', '>', $now); time() - (24*60*60)
+		//echo $usedDate;
+		$posts = Post::where('updated_at', '>=', $usedDate)->get();
+		//print_r ($posts);
+		// Show the page
+		return View::make('backend/posts/index', compact('posts', 'users', 'usedDate'));
+	}
+	
 
 	/**
 	 * Group create.

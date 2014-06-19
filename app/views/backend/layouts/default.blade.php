@@ -16,11 +16,17 @@
 		<!-- Mobile Specific Metas
 		================================================== -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<!-- Javascripts
+		================================================== -->
+		<script src="{{ asset('assets/js/jquery-1.10.1.min.js') }}"></script>
+		<script src="{{ asset('assets/js/bootstrap-2.3.2.min.js') }}"></script>
+		<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 		<!-- CSS
 		================================================== -->
 		<link href="{{ asset('assets/css/bootstrap-2.3.2.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('assets/css/bootstrap-responsive-2.3.2.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
 
 		<style>
 		@section('styles')
@@ -95,9 +101,6 @@
 			</footer>
 		</div>
 
-		<!-- Javascripts
-		================================================== -->
-		<script src="{{ asset('assets/js/jquery-1.10.1.min.js') }}"></script>
-		<script src="{{ asset('assets/js/bootstrap-2.3.2.min.js') }}"></script>
+
 	</body>
 </html>
