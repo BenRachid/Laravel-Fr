@@ -68,6 +68,8 @@
 										<li<?php echo (Request::is('admin/groups*') ? ' class="active"' : ''); ?>><a href="<?php echo URL::to('admin/groups'); ?>"><i class="icon-user"></i> <?php echo Lang::get('backend/menu.users.submenus.groups'); ?></a></li>
 									</ul>
 								</li>
+								<li<?php echo (Request::is('admin') ? ' class="active"' : ''); ?>><a href="<?php echo URL::to('admin/posts'); ?>"><i class="icon-home icon-white"></i> <?php echo Lang::get('backend/menu.admin_home'); ?></a></li>
+								<li<?php echo (Request::is('admin') ? ' class="active"' : ''); ?>><a href="<?php echo URL::to('admin/comments'); ?>"><i class="icon-home icon-white"></i> <?php echo Lang::get('backend/menu.admin_home'); ?></a></li>
 							</ul>
 							<ul class="nav pull-right">
 								<li><a href="<?php echo URL::to('/'); ?>"><?php echo Lang::get('backend/menu.site_home'); ?></a></li>

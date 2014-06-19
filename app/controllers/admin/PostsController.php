@@ -1,18 +1,16 @@
 <?php namespace Controllers\Admin;
 
 use AdminController;
-use Cartalyst\Sentry\Groups\GroupExistsException;
-use Cartalyst\Sentry\Groups\GroupNotFoundException;
-use Cartalyst\Sentry\Groups\NameRequiredException;
 use Config;
 use Input;
 use Lang;
 use Redirect;
-use Sentry;
 use Validator;
 use View;
+use user;
+use post;
 
-class GroupsController extends AdminController {
+class PostsController extends AdminController {
 
 	/**
 	 * Show a list of all the groups.
@@ -21,11 +19,11 @@ class GroupsController extends AdminController {
 	 */
 	public function getIndex()
 	{
-		// Grab all the groups
-		$groups = Sentry::getGroupProvider()->createModel()->paginate();
+		// Grab all the posts
+		$posts = Post::all();
 
 		// Show the page
-		return View::make('backend/groups/index', compact('groups'));
+		return View::make('backend/posts/index', compact('posts'));
 	}
 
 	/**
@@ -35,15 +33,11 @@ class GroupsController extends AdminController {
 	 */
 	public function getCreate()
 	{
-		// Get all the available permissions
-		$permissions = Config::get('permissions');
-		$this->encodeAllPermissions($permissions, true);
-
-		// Selected permissions
-		$selectedPermissions = Input::old('permissions', array());
+		// Get all the users
+		$users = User::all();
 
 		// Show the page
-		return View::make('backend/groups/create', compact('permissions', 'selectedPermissions'));
+		return View::make('backend/posts/create', compact('users'));
 	}
 
 	/**
@@ -55,8 +49,19 @@ class GroupsController extends AdminController {
 	{
 		// Declare the rules for the form validation
 		$rules = array(
-			'name' => 'required',
+			'user_id' => 'required',
+			'title' => 'required',
+			'content' => 'required',
 		);
+		$destinationPath = '';
+            $filename        = '';
+
+           if (Input::hasFile('Photo')) {
+                $file            = Input::file('Photo');
+                $destinationPath = public_path().'/imgages/logos/';
+                $filename        = str_random(6) . '_' . $file->getClientOriginalName();
+                $uploadSuccess   = $file->move($destinationPath, $filename);
+            }
 
 		// Create a new validator instance from our validation rules
 		$validator = Validator::make(Input::all(), $rules);
@@ -70,36 +75,35 @@ class GroupsController extends AdminController {
 
 		try
 		{
-			// We need to reverse the UI specific logic for our
-			// permissions here before we create the user.
-			$permissions = Input::get('permissions', array());
-			$this->decodePermissions($permissions);
-			app('request')->request->set('permissions', $permissions);
-
 			// Get the inputs, with some exceptions
 			$inputs = Input::except('_token');
+			$post = new Post;
+			$post->user_id = $inputs['user_id'];
+			$post->title = $inputs['title'];
+			$post->slug = $inputs['slug'];
+			$post->content = $inputs['content'];
+			$post->Photo =  'imgages/logos/' . $filename; 
+			$post->meta_title = $inputs['meta_title'];
+			$post->meta_description = $inputs['meta_description'];
+			$post->meta_keywords = $inputs['meta_keywords'];
 
-			// Was the group created?
-			if ($group = Sentry::getGroupProvider()->create($inputs))
+			// Was the post created?
+			if ($post->save())
 			{
-				// Redirect to the new group page
-				return Redirect::route('update/group', $group->id)->with('success', Lang::get('backend/groups/messages.success.created'));
+				// Redirect to the new post page
+				return Redirect::route('update/posts', $post->id)->with('success', Lang::get('backend/posts/messages.success.created'));
 			}
 
-			// Redirect to the new group page
-			return Redirect::route('create/group')->with('error', Lang::get('backend/groups/messages.error.created'));
+			// Redirect to the new post page
+			return Redirect::route('create/posts')->with('error', Lang::get('backend/posts/messages.error.created'));
 		}
 		catch (NameRequiredException $e)
 		{
-			$error = 'group_name_required';
-		}
-		catch (GroupExistsException $e)
-		{
-			$error = 'group_exists';
+			$error = 'erreur, vérifier les champs requis';
 		}
 
 		// Redirect to the group create page
-		return Redirect::route('create/group')->withInput()->with('error', Lang::get('backend/groups/messages.'.$error));
+		return Redirect::route('create/posts')->withInput()->with('error', Lang::get('backend/posts/messages.'.$error));
 	}
 
 	/**
@@ -110,28 +114,15 @@ class GroupsController extends AdminController {
 	 */
 	public function getEdit($id = null)
 	{
-		try
-		{
-			// Get the group information
-			$group = Sentry::getGroupProvider()->findById($id);
-
-			// Get all the available permissions
-			$permissions = Config::get('permissions');
-			$this->encodeAllPermissions($permissions, true);
-
-			// Get this group permissions
-			$groupPermissions = $group->getPermissions();
-			$this->encodePermissions($groupPermissions);
-			$groupPermissions = array_merge($groupPermissions, Input::old('permissions', array()));
-		}
-		catch (GroupNotFoundException $e)
-		{
-			// Redirect to the groups management page
-			return Redirect::route('groups')->with('error', Lang::get('backend/groups/messages.group_not_found', compact('id')));
-		}
+		//get the post to be edited
+		$post= Post::findOrFail($id);
+		// Get all the users
+		$users = User::all();
+		//Get all the Posts
+		$posts = Post::all();
 
 		// Show the page
-		return View::make('backend/groups/edit', compact('group', 'permissions', 'groupPermissions'));
+		return View::make('backend/posts/edit', compact('post', 'users', 'posts'));
 	}
 
 	/**
@@ -142,28 +133,23 @@ class GroupsController extends AdminController {
 	 */
 	public function postEdit($id = null)
 	{
-		// We need to reverse the UI specific logic for our
-		// permissions here before we update the group.
-		$permissions = Input::get('permissions', array());
-		$this->decodePermissions($permissions);
-		app('request')->request->set('permissions', $permissions);
-
-		try
-		{
-			// Get the group information
-			$group = Sentry::getGroupProvider()->findById($id);
-		}
-		catch (GroupNotFoundException $e)
-		{
-			// Redirect to the groups management page
-			return Rediret::route('groups')->with('error', Lang::get('backend/groups/messages.group_not_found', compact('id')));
-		}
-
+		//get the post to be edited
+		$post= Post::findOrFail($id);
 		// Declare the rules for the form validation
 		$rules = array(
-			'name' => 'required',
+			'user_id' => 'required',
+			'title' => 'required',
+			'content' => 'required',
 		);
 
+				$destinationPath = '';
+				$filename        = '';
+           if (Input::hasFile('Photo')) {
+                $file            = Input::file('Photo');
+                $destinationPath = public_path().'/imgages/logos/';
+                $filename        = str_random(6) . '_' . $file->getClientOriginalName();
+                $uploadSuccess   = $file->move($destinationPath, $filename);
+            }
 		// Create a new validator instance from our validation rules
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -173,32 +159,35 @@ class GroupsController extends AdminController {
 			// Ooops.. something went wrong
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
-
 		try
 		{
-			// Update the group data
-			$group->name        = Input::get('name');
-			$group->permissions = Input::get('permissions');
+			// Get the inputs, with some exceptions
+			$inputs = Input::except('_token');
+			$post->user_id = $inputs['user_id'];
+			$post->title = $inputs['title'];
+			$post->slug = $inputs['slug'];
+			$post->content = $inputs['content'];
+			$post->Photo =  'imgages/logos/' . $filename; 
+			$post->meta_title = $inputs['meta_title'];
+			$post->meta_description = $inputs['meta_description'];
+			$post->meta_keywords = $inputs['meta_keywords'];
 
-			// Was the group updated?
-			if ($group->save())
+			// Was the post created?
+			if ($post->save())
 			{
-				// Redirect to the group page
-				return Redirect::route('update/group', $id)->with('success', Lang::get('backend/groups/messages.success.updated'));
+				// Redirect to the new post page
+				return Redirect::route('update/posts', $post->id)->with('success', Lang::get('backend/posts/messages.success.created'));
 			}
-			else
-			{
-				// Redirect to the group page
-				return Redirect::route('update/group', $id)->with('error', Lang::get('backend/groups/messages.error.updated'));
-			}
+
+			// Redirect to the new post page
+			return Redirect::route('update/posts')->with('error', Lang::get('backend/posts/messages.error.created'));
 		}
 		catch (NameRequiredException $e)
 		{
-			$error = Lang::get('backend/groups/messages.group_name_required');
+			$error = Lang::get('backend/posts/messages.group_name_required');
 		}
-
-		// Redirect to the group page
-		return Redirect::route('update/group', $id)->withInput()->with('error', $error);
+		// Redirect to the post page
+		return Redirect::route('update/posts', $id)->withInput()->with('error', $error);
 	}
 
 	/**
@@ -211,19 +200,19 @@ class GroupsController extends AdminController {
 	{
 		try
 		{
-			// Get group information
-			$group = Sentry::getGroupProvider()->findById($id);
+			//get the post to be edited
+			$post= Post::findOrFail($id);
 
 			// Delete the group
-			$group->delete();
+			$post->delete();
 
 			// Redirect to the group management page
-			return Redirect::route('groups')->with('success', Lang::get('backend/groups/messages.success.deleted'));
+			return Redirect::route('posts')->with('success', Lang::get('backend/posts/messages.success.deleted'));
 		}
-		catch (GroupNotFoundException $e)
+		catch (PostNotFoundException $e)
 		{
 			// Redirect to the group management page
-			return Redirect::route('groups')->with('error', Lang::get('backend/groups/messages.group_not_found', compact('id')));
+			return Redirect::route('posts')->with('error', Lang::get('backend/posts/messages.post_not_found', compact('id')));
 		}
 	}
 

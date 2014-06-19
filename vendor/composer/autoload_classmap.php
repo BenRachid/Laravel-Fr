@@ -80,6 +80,7 @@ return array(
     'Controllers\\Admin\\CommentsController' => $baseDir . '/app/controllers/admin/CommentsController.php',
     'Controllers\\Admin\\DashboardController' => $baseDir . '/app/controllers/admin/DashboardController.php',
     'Controllers\\Admin\\GroupsController' => $baseDir . '/app/controllers/admin/GroupsController.php',
+    'Controllers\\Admin\\PostsController' => $baseDir . '/app/controllers/admin/PostsController.php',
     'Controllers\\Admin\\UsersController' => $baseDir . '/app/controllers/admin/UsersController.php',
     'CreateCommentsTable' => $baseDir . '/app/database/migrations/2013_01_19_044505_create_comments_table.php',
     'CreatePostsTable' => $baseDir . '/app/database/migrations/2013_01_19_011903_create_posts_table.php',

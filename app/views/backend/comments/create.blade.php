@@ -46,7 +46,6 @@
 						echo "<option value=\""; echo $value['id'] ; echo "\">"; echo $value['id'];  echo " </option>";
 					  }
 					  ?>
-					  </select>
 					</select>
 					{{ $errors->first('parent_id', '<span class="help-inline">:message</span>') }}
 				</div>
