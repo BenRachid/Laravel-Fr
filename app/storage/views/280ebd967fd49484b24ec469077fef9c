@@ -12,9 +12,33 @@
 <?php $__env->startSection('content'); ?>
 <div class="page-header">
 	<h3>
-		<?php echo Lang::get('backend/dashboard/actions.index.description'); ?>
+		Les cinq derniers commentaires 
 	</h3>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th class="span1"><?php echo Lang::get('backend/posts/table.user_id'); ?></th>
+					<th class="span1"><?php echo Lang::get('backend/posts/table.content'); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if ($comments->count() >= 1): ?>
+				<?php foreach ($comments as $comment): ?>
+				<tr>
+				<td><?php echo $comment->user_id; ?></td> <!-- -->
+				<td><?php echo $comment->content; ?></td>
+				</tr>
+				<?php endforeach; ?>
+				<?php else: ?>
+				<tr>
+					<td colspan="5"><?php echo Lang::get('backend/posts/table.no-results'); ?></td>
+				</tr>
+				<?php endif; ?>
+			</tbody>
+		</table>
 </div>
 <?php $__env->stopSection(); ?>
+
+
 
 <?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

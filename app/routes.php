@@ -152,6 +152,19 @@ Route::get('about-us', function()
 Route::get('contact-us', array('as' => 'contact-us', 'uses' => 'ContactUsController@getIndex'));
 Route::post('contact-us', 'ContactUsController@postIndex');
 
+
+/* API pour l'application android */
+/* 
+
+
+
+*/
+
+Route::any('api', array('as' => 'api.todos', 'uses' => 'Api_Todos_Controller@index'));
+
+//Route::any('api/v1/todos/(:num?)', array('as' => 'api.todos', 'uses' => 'api.todos@index'));
+
+ 
 Route::get('/', array('as' => 'home', function()
 {
     //

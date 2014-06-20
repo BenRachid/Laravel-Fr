@@ -2,6 +2,7 @@
 
 use AdminController;
 use View;
+use Comment;
 
 class DashboardController extends AdminController {
 
@@ -13,7 +14,8 @@ class DashboardController extends AdminController {
 	public function getIndex()
 	{
 		// Show the page
-		return View::make('backend/dashboard/index');
+		$comments = Comment::take(5)->get();
+		return View::make('backend/dashboard/index', compact('comments'));
 	}
 
 }

@@ -74,8 +74,8 @@
 										<li{{ (Request::is('admin/groups*') ? ' class="active"' : '') }}><a href="{{ URL::to('admin/groups') }}"><i class="icon-user"></i> {{Lang::get('backend/menu.users.submenus.groups')}}</a></li>
 									</ul>
 								</li>
-								<li{{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{ URL::to('admin/posts') }}"><i class="icon-home icon-white"></i> {{Lang::get('backend/menu.admin_home')}}</a></li>
-								<li{{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{ URL::to('admin/comments') }}"><i class="icon-home icon-white"></i> {{Lang::get('backend/menu.admin_home')}}</a></li>
+								<li{{ (Request::is('admin/posts') ? ' class="active"' : '') }}><a href="{{ URL::to('admin/posts') }}"><i class="icon-book icon-white"></i> Posts</a></li>
+								<li{{ (Request::is('admin/comments') ? ' class="active"' : '') }}><a href="{{ URL::to('admin/comments') }}"><i class="icon-comment icon-white"></i> comments</a></li>
 							</ul>
 							<ul class="nav pull-right">
 								<li><a href="{{ URL::to('/') }}">{{Lang::get('backend/menu.site_home')}}</a></li>

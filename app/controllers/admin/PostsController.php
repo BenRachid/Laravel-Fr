@@ -46,14 +46,19 @@ class PostsController extends AdminController {
 		// Grab all the posts
 		//$posts = Post::all();//$now->format('d-m-Y');
 		$users = User::all();
-		$now = Carbon::now();$now->subDay();
+		$limitDate = Carbon::now();//$now->addDay();
 		$inputs = Input::all();
 		$usedDate = $inputs['datetimepicker'];
+		//$limitDate = new datetime();
+		//$limitDate = $usedDate->addDay();
+		date_modify($limitDate, '+1 day');
 		//$now = $now->toDateTimeString();
 		//echo $now;
 		//$posts = Post::where('updated_at', '>', $now); time() - (24*60*60)
-		//echo $usedDate;
-		$posts = Post::where('updated_at', '>=', $usedDate)->get();
+		echo $usedDate;
+		//$posts = Post::where('updated_at', '<=', $limitDate)->where('updated_at', '>=', $usedDate)->get();
+	$posts = Post::where(function ($query,$usedDate ) 
+	{$query->where('updated_at', '>=', $usedDate)->orWhere('updated_at', '<=', $limitDate);})->get();
 		//print_r ($posts);
 		// Show the page
 		return View::make('backend/posts/index', compact('posts', 'users', 'usedDate'));

@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AdminController' => $baseDir . '/app/controllers/AdminController.php',
+    'Android' => $baseDir . '/app/models/android.php',
+    'ApiController' => $baseDir . '/app/controllers/ApiController.php',
+    'Api_Todos_Controller' => $baseDir . '/app/controllers/api/todos.php',
     'AppCommand' => $baseDir . '/app/commands/AppCommand.php',
     'AuthController' => $baseDir . '/app/controllers/AuthController.php',
     'Authentication' => $baseDir . '/app/models/Authentication.php',
@@ -1602,6 +1605,7 @@ return array(
     'Symfony\\Component\\Translation\\TranslatorInterface' => $vendorDir . '/symfony/translation/Symfony/Component/Translation/TranslatorInterface.php',
     'Symfony\\Component\\Translation\\Writer\\TranslationWriter' => $vendorDir . '/symfony/translation/Symfony/Component/Translation/Writer/TranslationWriter.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
+    'Todo' => $baseDir . '/app/models/todo.php',
     'UpdateUsersTable' => $baseDir . '/app/database/migrations/2013_03_23_193214_update_users_table.php',
     'User' => $baseDir . '/app/models/User.php',
     'Whoops\\Exception\\ErrorException' => $vendorDir . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
