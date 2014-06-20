@@ -21,7 +21,7 @@ class CommentsController extends AdminController {
 	public function getIndex()
 	{
 		// Grab all the comments
-		$comments = Comment::all();
+                $comments = Comment::where('state', '<>', 1)->get();
 
 		// Show the page
 		return View::make('backend/comments/index', compact('comments'));
@@ -192,8 +192,9 @@ class CommentsController extends AdminController {
 			$comment= Comment::findOrFail($id);
 
 			// Delete the comment
-			$comment->delete();
-
+			//$comment->delete();
+                        $comment->state = 1;
+                        $comment->save();
 			// Redirect to the comment management page
 			return Redirect::route('comments')->with('success', Lang::get('backend/comments/messages.success.deleted'));
 		}
