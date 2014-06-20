@@ -49,16 +49,21 @@ class PostsController extends AdminController {
 		$limitDate = Carbon::now();//$now->addDay();
 		$inputs = Input::all();
 		$usedDate = $inputs['datetimepicker'];
+		//$limitDate= $usedDate;
 		//$limitDate = new datetime();
 		//$limitDate = $usedDate->addDay();
-		date_modify($limitDate, '+1 day');
+		
+		//date_modify($limitDate, '+1 day');
+		
 		//$now = $now->toDateTimeString();
 		//echo $now;
 		//$posts = Post::where('updated_at', '>', $now); time() - (24*60*60)
-		echo $usedDate;
-		//$posts = Post::where('updated_at', '<=', $limitDate)->where('updated_at', '>=', $usedDate)->get();
-	$posts = Post::where(function ($query,$usedDate ) 
-	{$query->where('updated_at', '>=', $usedDate)->orWhere('updated_at', '<=', $limitDate);})->get();
+		$stop_date = date('Y-m-d', strtotime($usedDate . ' + 1 day'));
+		echo $usedDate."</br>".($stop_date);
+		
+		$posts = Post::where('updated_at', '<=', ($stop_date))->where('updated_at', '>', $usedDate)->get(); //
+	//$posts = Post::where(function ($query) 
+	//{$query->where('updated_at', '>=', $usedDate)->orWhere('updated_at', '<=', $stop_date);})->get();
 		//print_r ($posts);
 		// Show the page
 		return View::make('backend/posts/index', compact('posts', 'users', 'usedDate'));

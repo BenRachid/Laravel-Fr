@@ -19,7 +19,7 @@
 			<a href="{{ route('create/posts') }}" class="btn btn-small btn-info"><i class="icon-plus-sign icon-white"></i> {{Lang::get('backend/posts/actions.buttons.create')}}</a>
 		<div class="well"><div id="datetimepicker" class="input-append">
 		<form class="form-horizontal" method="post" action="{{URL::to('/');}}/admin/posts/useddate" autocomplete="off">
-		<input id="datetimepicker" name="datetimepicker" data-format="dd-MM-yyyy" type="text" value="<?php if(isset($usedDate)){echo $usedDate;}else{$now = new DateTime(); echo $now->format('d-m-Y');}?> "></input><span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span></div></div>
+		<input id="datetimepicker" name="datetimepicker" data-format="yyyy-MM-dd" type="text" value="<?php if(isset($usedDate)){echo $usedDate;}else{$now = new DateTime(); echo $now->format('Y-m-d');}?> "></input><span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span></div></div>
 		<script type="text/javascript">
 		  $(function() {
 			$('#datetimepicker').datetimepicker({
